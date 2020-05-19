@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Thread</th>
+    </tr>
+    {% for thread in threads %}
+    <tr>
+      <td>{{ thread.title }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

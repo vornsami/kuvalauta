@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    
+<p></p>
+
+<b>{{ thread.title }}</b>
+<table>
+    {%  for comment in thread.get_comments  %}
+    {% if thread.is_main_comment(comment)  %}
+    <tr>
+      <td><p>{{ comment.content }}</p></td>
+    </tr>
+    <tr>
+      <td><p></p></td>
+    </tr>
+   {% else %}
+   
+    <tr>
+      <td></td><td><p>{{ comment.content }}</p></td>
+    </tr>
+    {% endif %}
+	{% endfor %}
+</table>
+
+
+<style>
+
+.modalDialog {
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 99999;
+    opacity:0;
+    pointer-events: none;
+}
+
+
+.modalDialog:target {
+    opacity:1;
+    pointer-events: auto;
+}
+
+.modalDialog > div {
+    width: 400px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+
+</style>
+
+<p></p>
+{{ %  if current_user.is_authenticated  % }}
+<a href="#addComment">Add comment</a>
+
+<div id="addComment" class="modalDialog">
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/thread/1">
+        <table>
+        <tr>
+          <td>
+            {{ form.comment.label }}
+          </td>
+          <td>
+            {{ form.comment }}
+          </td>
+          <td>
+            <ul>
+            
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            {{ form.image.label }}
+          </td>
+          <td colspan="2">
+            {{ form.image }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <input type="submit" value="Comment"/>
+          </td>
+        </tr>
+        <a href="#close" title="Close" class="close">X</a>
+    </div>
+</div>
+{{ %  endif  % }}
+{% endblock %}

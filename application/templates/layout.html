@@ -6,7 +6,8 @@
   </head>
 
   <body>
-  
+    <a href="{{ url_for('main') }}">Return to main page </a>
+    -------
     {% if current_user.is_authenticated %}
       <p>
     Current user: {{ current_user.name }}  <a href="{{ url_for('auth_logout') }}">Log out</a>

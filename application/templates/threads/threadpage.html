@@ -6,7 +6,7 @@
 
 <b>{{ thread.title }}</b>
 <table>
-    {%  for comment in thread.get_comments  %}
+    {%  for comment in thread.get_comments()  %}
     {% if thread.is_main_comment(comment)  %}
     <tr>
       <td><p>{{ comment.content }}</p></td>
@@ -58,7 +58,7 @@
 </style>
 
 <p></p>
-{{ %  if current_user.is_authenticated  % }}
+{%  if current_user.is_authenticated  %}
 <a href="#addComment">Add comment</a>
 
 <div id="addComment" class="modalDialog">
@@ -94,5 +94,5 @@
         <a href="#close" title="Close" class="close">X</a>
     </div>
 </div>
-{{ %  endif  % }}
+{%  endif  %}
 {% endblock %}

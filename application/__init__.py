@@ -12,12 +12,12 @@ from application import views
 
 from application.threads import models, views
 from application.auth import models, views
-
+from application.images import models
 
 from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
-
+app.config["UPLOAD_FOLDER"] = "application/resources"
 from flask_login import LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)

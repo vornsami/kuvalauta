@@ -13,17 +13,3 @@ def main():
 @app.route('/image/<filename>')
 def display_image(filename):
     return redirect(url_for('static', filename='upload/' + filename), code=301)
-
-@app.route("/upload", methods = ["GET", "POST"])
-def upload_form():
-    if request.method == "GET":
-        return render_template('upload.html')
-
-    if 'file' not in request.files:
-        return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-        return redirect(request.url)
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return render_template('upload.html', filename=filename)

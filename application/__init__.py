@@ -1,8 +1,9 @@
 from flask import Flask 
+UPLOAD_FOLDER = "static/upload/"
+
 app = Flask(__name__)
 
 from flask_sqlalchemy import SQLAlchemy
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///board.db"
 app.config["SQLALCHEMY_ECHO"] = True
 
@@ -17,7 +18,10 @@ from application.images import models
 from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
-app.config["UPLOAD_FOLDER"] = "application/resources"
+
+
+
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 from flask_login import LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -2,6 +2,7 @@
 from application import db
 from application.models import Base
 from sqlalchemy.sql import text
+from application.images.models import Image
 class Thread(Base):
     
     title = db.Column(db.String(144), nullable=False)
@@ -24,9 +25,16 @@ class Thread(Base):
         for row in res:
             response.append(row)
         return list(response)
+        
     def is_main_comment(self, comment):  
         return comment.id == self.main_comment_id
-    
+
+    def get_image_filename(self,comment):
+        image = Image.query.filter_by(id = comment.image_id).first()
+        
+        if image is not None:
+            return image.filename
+        return None
     
 class Comment(Base):
     
@@ -40,3 +48,4 @@ class Comment(Base):
                            
     def __init__(self, content):
         self.content = content  
+

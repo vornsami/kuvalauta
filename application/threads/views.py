@@ -64,12 +64,13 @@ def threads_page(thread_id):
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
         image.save(os.path.join(
-            app.config['UPLOAD_FOLDER'], 'images', filename
+            'application', app.config['UPLOAD_FOLDER'], filename
         ))
     
         i = Image(image.name)
-        i.path = filename
-    
+        i.filename = filename
+            
+        print(filename)
         db.session().add(i)
         db.session().commit()
     

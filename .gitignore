@@ -2,3 +2,4 @@ venv
 board.db
 dummy.html
 __pycache__
+static

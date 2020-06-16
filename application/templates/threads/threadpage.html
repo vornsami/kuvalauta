@@ -5,7 +5,26 @@
 <p></p>
 
 <p><b>{{ thread.title }}</b></p>
-<table>
+<style>
+table {
+  width:100%;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+table#cmmntTabl tr:nth-child(even) {
+  background-color: #efe;
+}
+table#cmmntTabl tr:nth-child(odd) {
+ background-color: #bfb;
+}
+table#cmmntTabl td:nth-child(1) {
+  width:10%;
+}
+</style>
+<table  id="cmmntTabl">
     {%  for comment in thread.get_comments()  %}
     {% if thread.is_main_comment(comment)  %}
     <tr>
@@ -17,8 +36,10 @@
    {% else %}
     
     <tr>
+	  {% if thread.get_image_filename(comment) %}
       <td><img src="{{ url_for('display_image', filename=thread.get_image_filename(comment)) }}" height="100"></td>
-      <td><p>{{ comment.content }}</p></td>
+      {% endif %}
+	  <td><p>{{ comment.content }}</p></td>
     </tr>
     
     {% endif %}
@@ -65,7 +86,7 @@
 
 <div id="addComment" class="modalDialog">
     <div>
-        <form method="POST" enctype="multipart/form-data" action="/thread/1">
+        <form method="POST" enctype="multipart/form-data" action="/thread/{{  thread.id }}">
         <table>
         <tr>
           <td>

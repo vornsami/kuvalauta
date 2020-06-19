@@ -2,7 +2,7 @@ from application import app, db
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required
 from application.threads.models import Thread, Comment
-from application.functions import threadSort
+from application.functions import threadSort, idSort
 from application.threads.forms import ThreadForm, CommentForm
 from flask_login import current_user
 from application.images.models import Image
@@ -27,23 +27,29 @@ def threads_create():
     image = form.image.data
     
     if image is not None:
-        num = len(Image.query.all()) + 1
+        imgs = Image.query.all()
+        imgs.sort(key=idSort)
+        img = imgs[0]
+        num = img.id + 1
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
         image.save(os.path.join(
             'application', app.config["UPLOAD_FOLDER"], filename
         ))
-    
         i = Image(image.name)
         i.filename = filename
             
         db.session().add(i)
         db.session().commit()
-	
+    
     t = Thread(form.title.data)
     t.account_id = current_user.id
     
-    t.main_comment_id = len(Comment.query.all()) + 1
+    coms = Comment.query.all()
+    coms.sort(key=idSort, reverse = True)
+    com = coms[0] 
+    print(com.id)
+    t.main_comment_id = com.id + 1
     
     db.session().add(t)
     db.session().commit()
@@ -59,7 +65,7 @@ def threads_create():
     db.session().commit()
     
     delete_extra_threads()
-	
+    
     return redirect(url_for("main"))
     
 @app.route("/thread/<thread_id>", methods = ["GET", "POST"])
@@ -81,7 +87,10 @@ def threads_page(thread_id):
     
     image = form.image.data
     if image is not None:
-        num = len(Image.query.all()) + 1
+        imgs = Image.query.all()
+        imgs.sort(key=idSort)
+        img = imgs[0]
+        num = img.id + 1
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
         image.save(os.path.join(
@@ -115,6 +124,8 @@ def delete_extra_threads():
         for comment in c:
             i = Image.query.filter_by(id = comment.image_id).first()
             if i is not None:
+                os.remove(os.path.join(
+            'application', app.config["UPLOAD_FOLDER"], i.filename))
                 db.session.delete(i)
             db.session.delete(comment)
 

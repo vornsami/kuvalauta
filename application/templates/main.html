@@ -1,21 +1,61 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <table>
+
+<style>
+table {
+  width:90%;
+}
+
+th {
+  text-align: left;
+  padding: 5px;
+  background-color: #bfb;
+}
+td {
+  padding: 15px;
+  text-align: left;
+  background-color: #efe;
+}
+table#thrTabl td:nth-child(1) {
+  width:120px;
+  text-align: center;
+
+}
+</style>
+
+  <table id='thrTabl'>
     <tr>
-      <th>Current Threads</th>
+      <th colspan=2>Current Threads</th>
     </tr>
-    {% for thread in threads %}
-    <tr>
-      <td><a method="GET" href="{{ url_for('threads_page',thread_id = thread.id) }}"> {{ thread.title }}</a> </td>
-    </tr>
-    {% endfor %}
-    <tr>
+	<tr>
+	  <td colspan=2>
       {% if current_user.is_authenticated %}
       <form action="{{ url_for('threads_form') }}">
          <button type="submit">Create a new thread</button>
       </form>
       {% endif %} 
+	  </td>
     </tr>
+    {% for thread in threads %}
+    <th colspan=2>
+      <b>{{ thread.title }}</b>
+	</th>
+	{% with main_comment = thread.get_main_comment() %}
+	<tr>
+	  {% with imgFile = thread.get_image_filename(main_comment) %}
+	  {% if imgFile %}
+      <td><img src="{{ url_for('display_image', filename=imgFile) }}" width=100% height=100%></td>
+      {% else %}
+	  <td></td>
+	  {% endif %}
+	{% endwith %}
+	  <td> {{ main_comment.content }} </td>
+	</tr>
+	<tr>
+	  <td colspan=2><a method="GET" href="{{ url_for('threads_page',thread_id = thread.id) }}">Read replies</a></td>
+	<tr>
+	{% endwith %}
+    {% endfor %}
   </table>
 {% endblock %}

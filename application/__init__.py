@@ -19,7 +19,7 @@ from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
 
-
+app.config["THREAD_LIMIT"] = 20
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 from flask_login import LoginManager

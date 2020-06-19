@@ -3,46 +3,66 @@
 {% block body %}
     
 <p></p>
-
-<p><b>{{ thread.title }}</b></p>
 <style>
 table {
   width:100%;
 }
 
-th, td {
-  padding: 10px;
+th {
+  padding: 5px;
   text-align: left;
 }
-table#cmmntTabl tr:nth-child(even) {
+td {
+  padding: 5px;
+  text-align: left;
+}
+table#cmmntTabl th {
+  background-color: #8d8;
+}
+table#cmmntCont tr:nth-child(even) {
   background-color: #efe;
 }
-table#cmmntTabl tr:nth-child(odd) {
- background-color: #bfb;
+table#cmmntCont tr:nth-child(odd) {
+  background-color: #bfb;
 }
-table#cmmntTabl td:nth-child(1) {
-  width:10%;
+table#cmmntCont td {
+  padding:5px;
+}
+table#cmmntCont td:nth-child(1) {
+  width:150px;
+}
+table#cmmntCont td {
+  padding: 15px;
+  height: 120
 }
 </style>
 <table  id="cmmntTabl">
     {%  for comment in thread.get_comments()  %}
     {% if thread.is_main_comment(comment)  %}
-    <tr>
-      <td><p>{{ comment.content }}</p></td>
-    </tr>
-    <tr>
-      <td><p></p></td>
-    </tr>
-   {% else %}
+  <th><b>{{  thread.title  }}</b></th>
+   {% endif %}
     
-    <tr>
-	  {% if thread.get_image_filename(comment) %}
-      <td><img src="{{ url_for('display_image', filename=thread.get_image_filename(comment)) }}" height="100"></td>
-      {% endif %}
-	  <td><p>{{ comment.content }}</p></td>
+    
+  <table id="cmmntCont">
+	   <th colspan=2>
+			№{{ comment.id }}, User: {{ comment.account_id }}
+			
+		</th>
+	<tr>
+	{% with imgFile = thread.get_image_filename(comment) %}
+	  {% if imgFile %}
+      <td><img src="{{ url_for('display_image', filename=imgFile) }}" width=100%></td>
+      {% else %}
+	  <td></td>
+	  {% endif %}
+	{% endwith %}
+	    <td>
+		  
+			  {{ comment.content }} 
+	    </td>
+	  </table>
     </tr>
     
-    {% endif %}
     {% endfor %}
 </table>
 

@@ -28,7 +28,18 @@ class Thread(Base):
         
     def is_main_comment(self, comment):  
         return comment.id == self.main_comment_id
+    def get_main_comment(self):
+        stmt = text("SELECT Comment.* FROM Comment WHERE id = :main_id;").params(main_id=self.main_comment_id)
+    
+        res = db.engine.execute(stmt)
 
+        response = []
+        for row in res:
+            response.append(row)
+        return response[0]
+        
+        
+	
     def get_image_filename(self,comment):
         image = Image.query.filter_by(id = comment.image_id).first()
         

@@ -39,3 +39,15 @@ def delete_extra_threads():
         db.session().delete(t)
         db.session().commit()
         
+def delete_user(user):
+    t = Thread.query.filter_by(account_id = user.id).all()
+    
+    for thread in t:
+        delete_thread_comments(thread)
+        db.session.delete(thread)
+    c = Comment.query.filter_by(account_id = user.id).all()
+    
+    for comment in c:
+        delete_comment(comment)
+    db.session().delete(user)
+

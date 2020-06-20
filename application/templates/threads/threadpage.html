@@ -39,15 +39,30 @@ table#cmmntCont td {
 <table  id="cmmntTabl">
     {%  for comment in thread.get_comments()  %}
     {% if thread.is_main_comment(comment)  %}
-  <th><b>{{  thread.title  }}</b></th>
+  <th><b>{{  thread.title  }}</b>
+    {% if current_user.is_authenticated %}
+    {% if current_user.is_admin() %}
+    
+    <form method="POST" action="{{ url_for('admin_delete_thread', thread_id=thread.id) }}">
+         <button type="submit">Delete Thread</button>
+    </form>
+    {% endif %}
+    {% endif %}
+  </th>
    {% endif %}
     
     
   <table id="cmmntCont">
-       <th colspan=2>
-            №{{ comment.id }}, User: {{ thread.get_comment_user(comment).name }}
-            
-        </th>
+    <th colspan=2>
+      №{{ comment.id }}, User: {{ thread.get_comment_user(comment).name }}
+      {% if current_user.is_authenticated %}
+      {% if current_user.is_admin() %}
+      <form method="POST" action="{{ url_for('admin_delete_comment', comment_id=comment.id) }}">
+        <button type="submit">Delete comment</button>
+      </form>
+      {% endif %}
+      {% endif %}
+    </th>
     <tr>
     {% with imgFile = thread.get_image_filename(comment) %}
       {% if imgFile %}
@@ -56,14 +71,13 @@ table#cmmntCont td {
       <td></td>
       {% endif %}
     {% endwith %}
-        <td>
-          
-              {{ comment.content }} 
-        </td>
-      </table>
-    </tr>
+      <td>  
+        {{ comment.content }} 
+      </td>
+    </table>
+  </tr>
     
-    {% endfor %}
+  {% endfor %}
 </table>
 
 
@@ -71,7 +85,6 @@ table#cmmntCont td {
 
 .modalDialog {
     position: fixed;
-    font-family: Arial, Helvetica, sans-serif;
     top: 0;
     right: 0;
     bottom: 0;
@@ -89,12 +102,11 @@ table#cmmntCont td {
 }
 
 .modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
+    width: 600px;
+    position: fixed;
+    margin: 100px;
     padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #fff;
+    background: #dfd;
 }
 
 

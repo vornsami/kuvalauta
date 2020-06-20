@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from application.auth.models import User
-from application.functions import delete_thread_comments, delete_comment
+from application.functions import delete_user
 from application.threads.models import Thread, Comment
 
 from application import app, db
@@ -51,6 +51,7 @@ def newuser():
                                error = "Username already in use")
                                
     user = User(form.username.data, form.username.data, form.password.data)
+    user.acc_type = "USER"
     db.session().add(user)
     db.session().commit()
 
@@ -103,19 +104,9 @@ def delete_self():
         return render_template("auth/loginform.html", form = form,
                                error = "Incorrect username or password")
     
-    t = Thread.query.filter_by(account_id = current_user.id).all()
-    
-    for thread in t:
-        delete_thread_comments(thread)
-        db.session.delete(thread)
-        db.session().commit()
-    c = Comment.query.filter_by(account_id = current_user.id).all()
-    
-    for comment in c:
-        delete_comment(comment)
-        db.session().commit()
     logout_user
-    db.session().delete(current_user)
+    delete_user(u)
+    
     db.session().commit()
 
     return redirect(url_for("main"))

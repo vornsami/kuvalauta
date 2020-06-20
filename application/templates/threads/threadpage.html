@@ -20,7 +20,7 @@ table#cmmntTabl th {
   background-color: #8d8;
 }
 table#cmmntCont tr:nth-child(even) {
-  background-color: #efe;
+  background-color: #dfd;
 }
 table#cmmntCont tr:nth-child(odd) {
   background-color: #bfb;
@@ -44,23 +44,23 @@ table#cmmntCont td {
     
     
   <table id="cmmntCont">
-	   <th colspan=2>
-			№{{ comment.id }}, User: {{ comment.account_id }}
-			
-		</th>
-	<tr>
-	{% with imgFile = thread.get_image_filename(comment) %}
-	  {% if imgFile %}
+       <th colspan=2>
+            №{{ comment.id }}, User: {{ thread.get_comment_user(comment).name }}
+            
+        </th>
+    <tr>
+    {% with imgFile = thread.get_image_filename(comment) %}
+      {% if imgFile %}
       <td><img src="{{ url_for('display_image', filename=imgFile) }}" width=100%></td>
       {% else %}
-	  <td></td>
-	  {% endif %}
-	{% endwith %}
-	    <td>
-		  
-			  {{ comment.content }} 
-	    </td>
-	  </table>
+      <td></td>
+      {% endif %}
+    {% endwith %}
+        <td>
+          
+              {{ comment.content }} 
+        </td>
+      </table>
     </tr>
     
     {% endfor %}

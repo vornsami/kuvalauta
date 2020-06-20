@@ -1,5 +1,8 @@
 from flask import Flask 
+
 UPLOAD_FOLDER = "static/upload/"
+THREAD_LIMIT = 20
+
 
 app = Flask(__name__)
 
@@ -19,9 +22,9 @@ from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
 
-app.config["THREAD_LIMIT"] = 20
-
+app.config["THREAD_LIMIT"] = THREAD_LIMIT           
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
 from flask_login import LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)

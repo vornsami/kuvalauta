@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  
+  <table>
+    <tr>
+      <th>Options:</th>
+    </tr>
+    <tr>
+      <td><b>Change visible name</b></td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <form method="POST" action="{{ url_for('change_name') }}">
+    <tr>
+      <td>{{ form.username.label }} </td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.password.label }} </td>
+      <td>{{ form.password }}</td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <tr>
+      <td>New name: </td>
+      <td><input type="text" name="new_name" size="25"/></td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <tr>
+    <td><input type="submit" value="Change name"/></td>
+    </tr>
+    </form>
+    <tr><td><p></p></td></tr>
+    <tr>
+      <td><b>Delete user</b></td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <form method="POST" action="{{ url_for('delete_self') }}">
+    <tr>
+      <td>{{ form.username.label }} </td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.password.label }} </td>
+      <td>{{ form.password }}</td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <tr>
+      <td><input type="submit" value="Delete user"/></td>
+    </tr>
+    </form>
+  </table>
+  
+{% endblock %}

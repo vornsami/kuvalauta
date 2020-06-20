@@ -5,20 +5,23 @@
     <title>Kuvalauta</title>
   </head>
 
-  <body>
+  <body style="background-color:#eff;">
     <a href="{{ url_for('main') }}">Return to main page </a>
-    -------
+     ------- 
     {% if current_user.is_authenticated %}
       
     Current user: {{ current_user.name }}  <a href="{{ url_for('auth_logout') }}">Log out</a>
       
-      
+     -------   
+    
+    <a href="{{ url_for('options') }}">Options</a>
       {% else %}
-      <a href="{{ url_for('login') }}">Log in</a>
+    <a href="{{ url_for('login') }}">Log in</a>
       {% endif %}
-      
+     
+    
      <p>
-    </p>	 
+    </p>         
     {% block body %}
       <p>
         Content.

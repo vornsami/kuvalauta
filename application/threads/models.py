@@ -3,6 +3,7 @@ from application import db
 from application.models import Base
 from sqlalchemy.sql import text
 from application.images.models import Image
+from application.auth.models import User
 class Thread(Base):
     
     title = db.Column(db.String(144), nullable=False)
@@ -31,16 +32,17 @@ class Thread(Base):
     def get_main_comment(self):
         
         return Comment.query.filter_by(id = self.main_comment_id).first()
-        
-        
-	
+
     def get_image_filename(self,comment):
         image = Image.query.filter_by(id = comment.image_id).first()
         
         if image is not None:
             return image.filename
         return None
-    
+
+    def get_comment_user(self,comment):
+        return User.query.filter_by(id = comment.account_id).first()
+
 class Comment(Base):
     
     content = db.Column(db.String(1000), nullable=False)

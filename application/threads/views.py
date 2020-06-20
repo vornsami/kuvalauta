@@ -2,9 +2,10 @@ from application import app, db
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required
 from application.threads.models import Thread, Comment
-from application.functions import threadSort, idSort
+from application.functions import idSort, delete_extra_threads
 from application.threads.forms import ThreadForm, CommentForm
 from flask_login import current_user
+from application.auth.models import User
 from application.images.models import Image
 from werkzeug.datastructures import CombinedMultiDict
 from werkzeug.utils import secure_filename
@@ -28,9 +29,14 @@ def threads_create():
     
     if image is not None:
         imgs = Image.query.all()
-        imgs.sort(key=idSort)
-        img = imgs[0]
-        num = img.id + 1
+
+        if not imgs:
+            num = 1
+        else:
+            imgs.sort(key=idSort, reverse = True)
+            img = imgs[0]
+            num = img.id + 1
+
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
         image.save(os.path.join(
@@ -46,11 +52,15 @@ def threads_create():
     t.account_id = current_user.id
     
     coms = Comment.query.all()
-    coms.sort(key=idSort, reverse = True)
-    com = coms[0] 
-    print(com.id)
-    t.main_comment_id = com.id + 1
     
+    if not coms:
+        t.main_comment_id = 1
+        
+    else:
+        coms.sort(key=idSort, reverse = True)
+        com = coms[0] 
+        t.main_comment_id = com.id + 1
+        
     db.session().add(t)
     db.session().commit()
     
@@ -88,9 +98,12 @@ def threads_page(thread_id):
     image = form.image.data
     if image is not None:
         imgs = Image.query.all()
-        imgs.sort(key=idSort)
-        img = imgs[0]
-        num = img.id + 1
+        if not imgs:
+            num = 1
+        else:
+            imgs.sort(key=idSort, reverse = True)
+            img = imgs[0]
+            num = img.id + 1
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
         image.save(os.path.join(
@@ -115,19 +128,3 @@ def threads_page(thread_id):
     db.session().commit()
     return render_template("threads/threadpage.html", thread = thread, form = CommentForm())
 
-def delete_extra_threads():
-    thrs = Thread.query.all()
-    if len(thrs) > app.config["THREAD_LIMIT"]:
-        thrs.sort(key=threadSort)
-        t = thrs[0]
-        c = Comment.query.filter_by(thread_id = t.id)
-        for comment in c:
-            i = Image.query.filter_by(id = comment.image_id).first()
-            if i is not None:
-                os.remove(os.path.join(
-            'application', app.config["UPLOAD_FOLDER"], i.filename))
-                db.session.delete(i)
-            db.session.delete(comment)
-
-        db.session().delete(t)
-        db.session().commit()

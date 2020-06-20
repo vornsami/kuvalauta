@@ -1,8 +1,10 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
+from application.auth.models import User
+from application.functions import delete_thread_comments, delete_comment
+from application.threads.models import Thread, Comment
 
 from application import app, db
-from application.auth.models import User
 from application.auth.forms import LoginForm
 
 @app.route("/auth/login", methods = ["GET", "POST"])
@@ -43,10 +45,77 @@ def newuser():
     if user:
         return render_template("auth/newuser.html", form = form,
                                error = "Username already in use")
+    user = User.query.filter_by(username=form.username.data).first()
+    if user:
+        return render_template("auth/newuser.html", form = form,
+                               error = "Username already in use")
                                
     user = User(form.username.data, form.username.data, form.password.data)
     db.session().add(user)
     db.session().commit()
 
     login_user(user)
+    return redirect(url_for("main"))
+@app.route("/auth/options")
+@login_required
+def options():
+    return render_template("auth/options.html", form = LoginForm())
+
+
+@app.route("/auth/options/change", methods = ["POST"])
+@login_required    
+def change_name():
+    form = LoginForm(request.form)
+    
+    new_name = request.form.get("new_name")
+    
+    u = User.query.filter_by(username=form.username.data, password=form.password.data).first()
+    if not u:
+        return render_template("auth/loginform.html", form = form,
+                               error = "Incorrect username or password")
+    if current_user.id != u.id:
+        return render_template("auth/loginform.html", form = form,
+                               error = "Incorrect username or password")
+    
+    user = User.query.filter_by(name=new_name).first()
+    if user:
+        return render_template("auth/newuser.html", form = form,
+                               error = "Username already in use")
+    user = User.query.filter_by(username=new_name).first()
+    if user:
+        return render_template("auth/newuser.html", form = form,
+                               error = "Username already in use")
+    
+    u.name = new_name
+    db.session().commit()
+
+    return redirect(url_for("main"))
+@app.route("/auth/options/delete", methods = ["POST"])
+@login_required    
+def delete_self():
+    form = LoginForm(request.form)
+    
+    u = User.query.filter_by(username=form.username.data, password=form.password.data).first()
+    if not u:
+        return render_template("auth/loginform.html", form = form,
+                               error = "Incorrect username or password")
+    if current_user.id != u.id:
+        return render_template("auth/loginform.html", form = form,
+                               error = "Incorrect username or password")
+    
+    t = Thread.query.filter_by(account_id = current_user.id).all()
+    
+    for thread in t:
+        delete_thread_comments(thread)
+        db.session.delete(thread)
+        db.session().commit()
+    c = Comment.query.filter_by(account_id = current_user.id).all()
+    
+    for comment in c:
+        delete_comment(comment)
+        db.session().commit()
+    logout_user
+    db.session().delete(current_user)
+    db.session().commit()
+
     return redirect(url_for("main"))

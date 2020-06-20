@@ -63,7 +63,7 @@ def options():
     return render_template("auth/options.html", form = LoginForm())
 
 
-@app.route("/auth/options/change", methods = ["POST"])
+@app.route("/auth/options/change_name", methods = ["POST"])
 @login_required    
 def change_name():
     form = LoginForm(request.form)
@@ -91,6 +91,27 @@ def change_name():
     db.session().commit()
 
     return redirect(url_for("main"))
+	
+@app.route("/auth/options/change_password", methods = ["POST"])
+@login_required    
+def change_password():
+    form = LoginForm(request.form)
+    
+    new_password = request.form.get("new_password")
+    
+    u = User.query.filter_by(username=form.username.data, password=form.password.data).first()
+    if not u:
+        return render_template("auth/loginform.html", form = form,
+                               error = "Incorrect username or password")
+    if current_user.id != u.id:
+        return render_template("auth/loginform.html", form = form,
+                               error = "Incorrect username or password")
+    
+    current_user.password = new_password
+    db.session().commit()
+
+    return redirect(url_for("main"))	
+
 @app.route("/auth/options/delete", methods = ["POST"])
 @login_required    
 def delete_self():

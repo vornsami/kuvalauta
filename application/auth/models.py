@@ -11,8 +11,6 @@ class User(Base):
 
     acc_type = db.Column(db.String(15), nullable=False)
 
-    comments = db.relationship("Comment", backref='account', lazy=True)
-
     def __init__(self, name, username, password):
         self.name = name
         self.username = username

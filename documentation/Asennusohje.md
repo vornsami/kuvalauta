@@ -1,7 +1,7 @@
 Sovelluksen tulisi toimia paikallisesti asentamalla riippuvuudet ja suorittamalla run.py.
-Sovellus toimii herokussa ilman muutoksia.
 
-Yksityiskohtaisemmin:
+
+### Yksityiskohtaisemmin:
 
 Asenna python
 
@@ -20,7 +20,7 @@ Käynnistä ohjelma komennolla "run.py"
 Mene selaimessa osoitteeseen http://127.0.0.1:5000/
 
 
-Sovelluksen mukauttaminen:
+### Sovelluksen mukauttaminen:
 
 Sovellusta voi mukauttaa avaamalla "application"-kansiossa olevan tiedoston "__init__.py"
 Tiedostosta voi muuttaa seuraavien kenttien arvoja vaikuttamatta ohjelman toimintaan:
@@ -37,3 +37,16 @@ Käyttäjänimi tulee ympäröidä lainausmerkeillä.
 DEFAULT_ADMIN_PASSWORD määrittelee oletusarvoisen salasanan automaattisesti luotavalle ADMIN-tason käyttäjälle.
 Salasana tulee ympäröidä lainausmerkeillä.
 
+### Heroku
+
+
+Sovellus toimii herokussa antamalla sille ympäristömuuttuja HEROKU komennolla
+
+
+heroku config:set HEROKU=1
+
+
+ja lisäämällä herokuun tietokanta komennolla
+
+
+heroku addons:add heroku-postgresql:hobby-dev

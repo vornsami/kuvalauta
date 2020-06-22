@@ -19,12 +19,14 @@ def delete_thread_comments(thread):
 def delete_comment(comment):
     i = Image.query.filter_by(id = comment.image_id).first()
     if i is not None:
-        os.remove(os.path.join(
-            'application', app.config["UPLOAD_FOLDER"], i.filename))
-        db.session.delete(i)
+        delete_image(i)
     db.session.delete(comment)
-    
-    
+
+def delete_image(image):
+    os.remove(os.path.join(
+        'application', app.config["UPLOAD_FOLDER"], image.filename))
+    db.session.delete(image)
+
 def delete_extra_threads():
     thrs = Thread.query.all()
     if len(thrs) > app.config["THREAD_LIMIT"]:

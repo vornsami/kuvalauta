@@ -91,7 +91,7 @@ def change_name():
     db.session().commit()
 
     return redirect(url_for("main"))
-	
+    
 @app.route("/auth/options/change_password", methods = ["POST"])
 @login_required    
 def change_password():
@@ -110,7 +110,7 @@ def change_password():
     current_user.password = new_password
     db.session().commit()
 
-    return redirect(url_for("main"))	
+    return redirect(url_for("main"))    
 
 @app.route("/auth/options/delete", methods = ["POST"])
 @login_required    

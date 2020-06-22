@@ -2,7 +2,8 @@ from flask import Flask
 
 UPLOAD_FOLDER = "static/upload/"
 THREAD_LIMIT = 20
-
+DEFAULT_ADMIN_USERNAME = "admin"
+DEFAULT_ADMIN_PASSWORD = "admin"
 
 app = Flask(__name__)
 
@@ -75,14 +76,14 @@ except:
     pass
 
 #Luodaan admin-käyttäjä, mikäli sellaista ei vielä ole    
-from application.functions import delete_user
+from application.threads.functions import delete_user
 
-admin = User.query.filter_by(id=1,username="admin").first()
+admin = User.query.filter_by(id=1,username=DEFAULT_ADMIN_USERNAME).first()
 if not admin:
     user = User.query.filter_by(id=1).first()
     if user:
         delete_user(user)
-    u = User("admin","admin","admin")
+    u = User(DEFAULT_ADMIN_USERNAME,DEFAULT_ADMIN_USERNAME,DEFAULT_ADMIN_PASSWORD)
     u.acc_type = "ADMIN"
     u.id = 1
     db.session().add(u)

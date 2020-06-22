@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required
 from application.auth.models import User
-from application.functions import delete_thread_comments, delete_comment
+from application.threads.functions import delete_thread_comments, delete_comment
 from application.threads.models import Thread, Comment
 
 from application import app, db, login_manager, login_required

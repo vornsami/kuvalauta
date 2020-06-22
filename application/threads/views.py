@@ -2,7 +2,8 @@ from application import app, db
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required
 from application.threads.models import Thread, Comment
-from application.functions import idSort, delete_extra_threads
+from application.functions import idSort
+from application.threads.functions import delete_extra_threads
 from application.threads.forms import ThreadForm, CommentForm
 from flask_login import current_user
 from application.auth.models import User
@@ -42,7 +43,7 @@ def threads_create():
         image.save(os.path.join(
             'application', app.config["UPLOAD_FOLDER"], filename
         ))
-        i = Image(image.name)
+        i = Image(image.filename)
         i.filename = filename
             
         db.session().add(i)
@@ -50,16 +51,6 @@ def threads_create():
     
     t = Thread(form.title.data)
     t.account_id = current_user.id
-    
-    coms = Comment.query.all()
-    
-    if not coms:
-        t.main_comment_id = 1
-        
-    else:
-        coms.sort(key=idSort, reverse = True)
-        com = coms[0] 
-        t.main_comment_id = com.id + 1
         
     db.session().add(t)
     db.session().commit()

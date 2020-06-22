@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from application.auth.models import User
-from application.functions import delete_user
+from application.threads.functions import delete_user
 from application.threads.models import Thread, Comment
 
 from application import app, db

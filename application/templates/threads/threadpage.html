@@ -37,8 +37,6 @@ table#cmmntCont td {
 }
 </style>
 <table  id="cmmntTabl">
-    {%  for comment in thread.get_comments()  %}
-    {% if thread.is_main_comment(comment)  %}
   <th><b>{{  thread.title  }}</b>
     {% if current_user.is_authenticated %}
     {% if current_user.is_admin() %}
@@ -49,19 +47,20 @@ table#cmmntCont td {
     {% endif %}
     {% endif %}
   </th>
-   {% endif %}
-    
-    
+  
+  {%  for comment in thread.get_comments()  %}
   <table id="cmmntCont">
     <th colspan=2>
       №{{ comment.id }}, User: {{ thread.get_comment_user(comment).name }}
       {% if current_user.is_authenticated %}
       {% if current_user.is_admin() %}
+	  {% if thread.get_main_comment().id != comment.id %}
       <form method="POST" action="{{ url_for('admin_delete_comment', comment_id=comment.id) }}">
         <button type="submit">Delete comment</button>
       </form>
       {% endif %}
       {% endif %}
+	  {% endif %}
     </th>
     <tr>
     {% with imgFile = thread.get_image_filename(comment) %}

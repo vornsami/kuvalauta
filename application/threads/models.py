@@ -4,14 +4,13 @@ from application.models import Base
 from sqlalchemy.sql import text
 from application.images.models import Image
 from application.auth.models import User
+from application.functions import dateSort
+
 class Thread(Base):
     
     title = db.Column(db.String(144), nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
                            nullable=False)
-    main_comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'),
-                           nullable=False)
-    
     
     def __init__(self, title):
         self.title = title
@@ -26,12 +25,11 @@ class Thread(Base):
         for row in res:
             response.append(row)
         return list(response)
-        
-    def is_main_comment(self, comment):  
-        return comment.id == self.main_comment_id
+
     def get_main_comment(self):
-        
-        return Comment.query.filter_by(id = self.main_comment_id).first()
+        comments = Comment.query.filter_by(thread_id = self.id).all()
+        comments.sort(key=dateSort)
+        return comments[0]
 
     def get_image_filename(self,comment):
         image = Image.query.filter_by(id = comment.image_id).first()

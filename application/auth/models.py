@@ -11,7 +11,6 @@ class User(Base):
 
     acc_type = db.Column(db.String(15), nullable=False)
 
-    threads = db.relationship("Thread", backref='account', lazy=True)
     comments = db.relationship("Comment", backref='account', lazy=True)
 
     def __init__(self, name, username, password):

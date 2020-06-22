@@ -1,7 +1,7 @@
 from flask import redirect, url_for, render_template
 from application import app
 from application.threads.models import Thread
-from application.functions import threadSort
+from application.threads.functions import threadSort
 
 @app.route("/")
 def main():

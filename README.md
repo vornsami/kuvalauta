@@ -1,13 +1,24 @@
-T‰m‰n teht‰v‰n tavoitteena on luoda kuvalauta. K‰ytt‰j‰t pystyv‰t tekem‰‰n ketjuja, lataamaan kuvia, ja kommentoimaan ketjuihin.
-Etusivulla on ketjut viimeisimm‰n kommentin mukaan.
-Ketju poistetaan, mik‰li se ei en‰‰n mahdu etusivulle.
+### Mik‰ t‰m‰ on?
 
-Mit‰ odotan t‰m‰n ohjelman sis‰lt‰v‰n valmistuttuaan:
+T‰m‰ ohjelma on kuvalauta, jonne k‰ytt‰j‰t voivat tehd‰ ketjuja, ja ladata niihin kuvia ja kommentteja.
 
-- K‰ytt‰j‰ pystyy kirjautumaan sis‰‰n
-- k‰ytt‰j‰ pystyy lataamaan palvelimelle kuvia
-- K‰ytt‰j‰ pystyy tekem‰‰n ketjuja
-- k‰ytt‰j‰ pystyy kommentoimaan ketjuihin
-- Moderaattoritason k‰ytt‰j‰, joka pystyy poistamaan kommentteja ja ketjuja
-- Ketjujen ja niiden alaisten kommenttien automaattinen poisto, mik‰li ketjujen m‰‰r‰ ylitt‰‰ jonkun rajan
-- Kommentin kanssa ladatut kuvat n‰ytet‰‰n kommentin vieress‰
+Lis‰‰ ohjelmasta ja sen tavoitteista [t‰‰lt‰](/documentation/tavoitteet.md)
+
+
+
+### Miten t‰t‰ ohjelmaa k‰ytet‰‰n?
+
+Ohjelman asennusohjeen voi lukea [t‰‰lt‰](/documentation/asennusohje.md)
+
+ja k‰yttˆohjeen voi lˆyt‰‰ [t‰‰lt‰](/documentation/k‰yttˆohje.md)
+
+
+
+
+
+### Toteutuksesta
+
+- [CREATE TABLE -komennot](/documentation/Create Table.md)
+- [Lue lis‰‰ tietokannan rakenteesta](/documentation/tietokannan rakenteesta.md)
+- [Ohjelman tekem‰t SQL-kyselyt](/documentation/K‰yttˆtapausten SQL-kyselyt.md)
+- [Jatkokehitysideat](/documentation/Jatkokehitys.md)

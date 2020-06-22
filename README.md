@@ -1,16 +1,16 @@
-### Mikä tämä on?
+### MikÃ¤ tÃ¤mÃ¤ on?
 
-Tämä ohjelma on kuvalauta, jonne käyttäjät voivat tehdä ketjuja, ja ladata niihin kuvia ja kommentteja.
+TÃ¤mÃ¤ ohjelma on kuvalauta, jonne kÃ¤yttÃ¤jÃ¤t voivat tehdÃ¤ ketjuja, ja ladata niihin kuvia ja kommentteja.
 
-Lisää ohjelmasta ja sen tavoitteista [täältä](/documentation/tavoitteet.md)
+LisÃ¤Ã¤ ohjelmasta ja sen tavoitteista [tÃ¤Ã¤ltÃ¤](/documentation/tavoitteet.md)
 
 
 
-### Miten tätä ohjelmaa käytetään?
+### Miten tÃ¤tÃ¤ ohjelmaa kÃ¤ytetÃ¤Ã¤n?
 
-Ohjelman asennusohjeen voi lukea [täältä](/documentation/asennusohje.md)
+Ohjelman asennusohjeen voi lukea [tÃ¤Ã¤ltÃ¤](/documentation/asennusohje.md)
 
-ja käyttöohjeen voi löytää [täältä](/documentation/käyttöohje.md)
+ja kÃ¤yttÃ¶ohjeen voi lÃ¶ytÃ¤Ã¤ [tÃ¤Ã¤ltÃ¤](/documentation/kÃ¤yttÃ¶ohje.md)
 
 
 
@@ -19,6 +19,6 @@ ja käyttöohjeen voi löytää [täältä](/documentation/käyttöohje.md)
 ### Toteutuksesta
 
 - [CREATE TABLE -komennot](/documentation/Create_Table.md)
-- [Lue lisää tietokannan rakenteesta](/documentation/tietokannan_rakenteesta.md)
-- [Ohjelman tekemät SQL-kyselyt](/documentation/Käyttötapausten_SQL-kyselyt.md)
+- [Lue lisÃ¤Ã¤ tietokannan rakenteesta](/documentation/Tietokannan_rakenteesta.md)
+- [Ohjelman tekemÃ¤t SQL-kyselyt](/documentation/KÃ¤yttÃ¶tapausten_SQL-kyselyt.md)
 - [Jatkokehitysideat](/documentation/Jatkokehitys.md)

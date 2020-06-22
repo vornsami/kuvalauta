@@ -18,7 +18,7 @@ ja käyttöohjeen voi löytää [täältä](/documentation/käyttöohje.md)
 
 ### Toteutuksesta
 
-- [CREATE TABLE -komennot](/documentation/Create Table.md)
-- [Lue lisää tietokannan rakenteesta](/documentation/tietokannan rakenteesta.md)
-- [Ohjelman tekemät SQL-kyselyt](/documentation/Käyttötapausten SQL-kyselyt.md)
+- [CREATE TABLE -komennot](/documentation/Create_Table.md)
+- [Lue lisää tietokannan rakenteesta](/documentation/tietokannan_rakenteesta.md)
+- [Ohjelman tekemät SQL-kyselyt](/documentation/Käyttötapausten_SQL-kyselyt.md)
 - [Jatkokehitysideat](/documentation/Jatkokehitys.md)

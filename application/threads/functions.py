@@ -1,14 +1,14 @@
 from application import app, db
 import os.path
 from application.threads.models import Thread, Comment
-from application.images.models import Image	
+from application.images.models import Image    
 from application.functions import dateSort
 
 def threadSort(t):
     c = Comment.query.filter_by(thread_id = t.id).all()
     c.sort(key=dateSort,reverse=True)
     return c[0].date_modified
-	
+    
 def delete_thread_comments(thread):
 
     c = Comment.query.filter_by(thread_id = thread.id)

@@ -13,6 +13,10 @@ from application import app, db, login_manager, login_required
 def admin_delete_thread(thread_id):
 
     t = Thread.query.filter_by(id = thread_id).first()
+    
+    if t is None:
+        return redirect(url_for('main'))
+    
     delete_thread_comments(t)
 
     db.session.delete(t)

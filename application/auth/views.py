@@ -13,12 +13,14 @@ def login():
         return render_template("auth/loginform.html", form = LoginForm())
 
     form = LoginForm(request.form)
-
+    if not form.validate():
+        return render_template("auth/loginform.html", form = form,
+                               error = "Invalid input")
+    
     user = User.query.filter_by(username=form.username.data, password=form.password.data).first()
     if not user:
         return render_template("auth/loginform.html", form = form,
                                error = "No such username or password")
-
 
     login_user(user)
     return redirect(url_for("main"))
@@ -41,11 +43,7 @@ def newuser():
         return render_template("auth/newuser.html", form = form,
                                error = "invalid input")
 
-    user = User.query.filter_by(name=form.username.data).first()
-    if user:
-        return render_template("auth/newuser.html", form = form,
-                               error = "Username already in use")
-    user = User.query.filter_by(username=form.username.data).first()
+    user = db.session.query(User).filter((User.name == form.username.data) | (User.username == form.username.data)).first()
     if user:
         return render_template("auth/newuser.html", form = form,
                                error = "Username already in use")
@@ -68,23 +66,28 @@ def options():
 def change_name():
     form = LoginForm(request.form)
     
-    new_name = request.form.get("new_name")
+    if not form.validate():
+        return render_template("auth/options.html", form = form,
+                               error = "Invalid input")
+                               
+    new_name = form.new_username.data
+    
+    if not new_name:
+        return render_template("auth/options.html", form = form,
+                               error = "You need to input a new name")
     
     u = User.query.filter_by(username=form.username.data, password=form.password.data).first()
     if not u:
-        return render_template("auth/loginform.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Incorrect username or password")
     if current_user.id != u.id:
-        return render_template("auth/loginform.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Incorrect username or password")
     
-    user = User.query.filter_by(name=new_name).first()
+	# Tarkastetaan ettei nimi ole jo käytössä, mutta oma käyttäjänimi on edelleen sallittu
+    user = db.session.query(User).filter(((User.name == new_name) | (User.username == new_name)) & (User.id != current_user.id)).first()
     if user:
-        return render_template("auth/newuser.html", form = form,
-                               error = "Username already in use")
-    user = User.query.filter_by(username=new_name).first()
-    if user:
-        return render_template("auth/newuser.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Username already in use")
     
     u.name = new_name
@@ -97,14 +100,23 @@ def change_name():
 def change_password():
     form = LoginForm(request.form)
     
-    new_password = request.form.get("new_password")
+    if not form.validate():
+        return render_template("auth/options.html", form = form,
+                               error = "Invalid input")
+                               
+    new_password = form.new_password.data
     
+    if not new_password:
+        return render_template("auth/options.html", form = form,
+                               error = "You need to input a new password")
+                               
+                               
     u = User.query.filter_by(username=form.username.data, password=form.password.data).first()
     if not u:
-        return render_template("auth/loginform.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Incorrect username or password")
     if current_user.id != u.id:
-        return render_template("auth/loginform.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Incorrect username or password")
     
     current_user.password = new_password
@@ -117,12 +129,16 @@ def change_password():
 def delete_self():
     form = LoginForm(request.form)
     
+    if not form.validate():
+        return render_template("auth/options.html", form = form,
+                               error = "Invalid input")
+                               
     u = User.query.filter_by(username=form.username.data, password=form.password.data).first()
     if not u:
-        return render_template("auth/loginform.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Incorrect username or password")
     if current_user.id != u.id:
-        return render_template("auth/loginform.html", form = form,
+        return render_template("auth/options.html", form = form,
                                error = "Incorrect username or password")
     
     logout_user

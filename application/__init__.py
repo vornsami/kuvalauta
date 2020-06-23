@@ -2,17 +2,18 @@ from flask import Flask
 
 UPLOAD_FOLDER = "static/upload/"
 THREAD_LIMIT = 20
+COMMENT_LIMIT = 50
 DEFAULT_ADMIN_USERNAME = "admin"
 DEFAULT_ADMIN_PASSWORD = "admin"
 
 app = Flask(__name__)
 
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 if os.environ.get("HEROKU"):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 else:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tasks.db"    
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///board.db"    
     app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
@@ -27,7 +28,8 @@ from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
 
-app.config["THREAD_LIMIT"] = THREAD_LIMIT           
+app.config["THREAD_LIMIT"] = THREAD_LIMIT 
+app.config["COMMENT_LIMIT"] = COMMENT_LIMIT             
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 from flask_login import LoginManager

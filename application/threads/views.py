@@ -30,19 +30,25 @@ def threads_create():
     
     if image is not None:
         imgs = Image.query.all()
-
+        
+        # Kuvatiedoston nimi tulee olemaan sama kuin sen id, joten tässä katsotaan mikä id tulee olemaan
+        
         if not imgs:
             num = 1
         else:
             imgs.sort(key=idSort, reverse = True)
             img = imgs[0]
             num = img.id + 1
-
+            
+        # Määritellään tiedostonimi
+        
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
+        
         image.save(os.path.join(
             'application', app.config["UPLOAD_FOLDER"], filename
         ))
+        
         i = Image(image.filename)
         i.filename = filename
             
@@ -72,7 +78,11 @@ def threads_create():
 @app.route("/thread/<thread_id>", methods = ["GET", "POST"])
 def threads_page(thread_id):
     thread = Thread.query.filter_by(id = thread_id).first()
-    if request.method == "GET":
+    
+    if thread is None:
+        return render_template(url_for('main'))
+    
+    if request.method == "GET" or thread.exceeds_comment_count():
         return render_template("threads/threadpage.html", thread = thread, form = CommentForm())
     
     form = CommentForm(CombinedMultiDict((request.files, request.form)))
@@ -89,14 +99,21 @@ def threads_page(thread_id):
     image = form.image.data
     if image is not None:
         imgs = Image.query.all()
+        
+        # Kuvatiedoston nimi tulee olemaan sama kuin sen id, joten tässä katsotaan mikä id tulee olemaan
+        
         if not imgs:
             num = 1
-        else:
+        else: 
             imgs.sort(key=idSort, reverse = True)
             img = imgs[0]
             num = img.id + 1
+            
+        # Määritellään tiedostonimi
+        
         filename, file_extension = os.path.splitext(image.filename)
         filename = secure_filename(str(num) + file_extension)
+        
         image.save(os.path.join(
             'application', app.config["UPLOAD_FOLDER"], filename
         ))

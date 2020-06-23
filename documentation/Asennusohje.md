@@ -31,6 +31,9 @@ Huomaa, ett‰ polku tulee olla ymp‰rˆityn‰ lainausmerkeill‰.
 THREAD_LIMIT m‰‰rittelee, kuinka monta ketjua voi olla olemassa kerrallaan, ennen kuin sovellus alkaa niit‰ automaattisesti poistamaan. 
 Sen arvo on pelkk‰ numero.
 
+COMMENT_LIMIT m‰‰rittelee, kuinka monta kommenttia kussakin ketjussa voi olla, ennen kuin niiden lis‰‰minen ketjuun estet‰‰n.
+Sen arvo on pelkk‰ numero.
+
 DEFAULT_ADMIN_USERNAME m‰‰rittelee oletusarvoisen k‰ytt‰j‰nimen automaattisesti luotavalle ADMIN-tason k‰ytt‰j‰lle.
 K‰ytt‰j‰nimi tulee ymp‰rˆid‰ lainausmerkeill‰.
 

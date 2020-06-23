@@ -1,5 +1,5 @@
 
-from application import db
+from application import app, db
 from application.models import Base
 from sqlalchemy.sql import text
 from application.images.models import Image
@@ -27,23 +27,24 @@ class Thread(Base):
         return list(response)
 
     def get_main_comment(self):
-        comments = Comment.query.filter_by(thread_id = self.id).all()
-        comments.sort(key=dateSort)
+        comments = Comment.query.filter_by(thread_id = self.id).order_by(Comment.date_created)
         return comments[0]
 
     def get_image_filename(self,comment):
-        image = Image.query.filter_by(id = comment.image_id).first()
-        
-        if image is not None:
-            return image.filename
-        return None
+        image_filename = db.session.query(Image.filename).filter(Image.id == comment.image_id).first()
+        if image_filename:
+            image_filename = image_filename.filename
+        return image_filename
 
     def get_comment_user(self,comment):
         return User.query.filter_by(id = comment.account_id).first()
+        
+    def exceeds_comment_count(self):
+        return Comment.query.filter_by(thread_id = self.id).count() > app.config["COMMENT_LIMIT"]
 
 class Comment(Base):
     
-    content = db.Column(db.String(1000), nullable=False)
+    content = db.Column(db.String(5020), nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
                            nullable=False)
             

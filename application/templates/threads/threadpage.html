@@ -3,6 +3,7 @@
 {% block body %}
     
 <p></p>
+{{ form.error }}
 <style>
 table {
   width:100%;
@@ -38,6 +39,10 @@ table#cmmntCont td {
 </style>
 <table  id="cmmntTabl">
   <th><b>{{  thread.title  }}</b>
+    {% if thread.exceeds_comment_count() %}
+      THREAD HAS BEEN ARCHIVED. YOU CANNOT COMMENT ANYMORE.
+      
+    {% endif %}
     {% if current_user.is_authenticated %}
     {% if current_user.is_admin() %}
     
@@ -56,21 +61,21 @@ table#cmmntCont td {
       {% if comment.date_created != comment.date_modified %} 
       <b>Modified:</b> {{ comment.date_modified }}, 
       {% endif %}
-	  <b>User:</b>
-	  {% if current_user.is_authenticated %}
-	  {% if current_user.is_admin() %}
-	  id: {{ comment.account_id }}, Name:  
-	  {% endif %}
-	  {% endif %}
+      <b>User:</b>
+      {% if current_user.is_authenticated %}
+      {% if current_user.is_admin() %}
+      id: {{ comment.account_id }}, Name:  
+      {% endif %}
+      {% endif %}
       {{ thread.get_comment_user(comment).name }}
-	  {% if comment.image_id %}
-	  {% if current_user.is_authenticated %}
-	  {% if current_user.is_admin() %}
-	  , <b>Image: </b> 
-	  id: {{ comment.image_id }}
-	  {% endif %}
-	  {% endif %}
-	  {% endif %}
+      {% if comment.image_id %}
+      {% if current_user.is_authenticated %}
+      {% if current_user.is_admin() %}
+      , <b>Image: </b> 
+      id: {{ comment.image_id }}
+      {% endif %}
+      {% endif %}
+      {% endif %}
       {% if current_user.is_authenticated %}
       {% if current_user.is_admin() %}
       {% if thread.get_main_comment().id != comment.id %}
@@ -78,11 +83,11 @@ table#cmmntCont td {
         <button type="submit">Delete comment</button>
       </form>
       {% endif %}
-	  {% if comment.image_id %}
+      {% if comment.image_id %}
       <form method="POST" action="{{ url_for('admin_delete_image', comment_id=comment.id) }}">
         <button type="submit">Delete image</button>
       </form>
-	  {% endif %}
+      {% endif %}
       {% endif %}
       {% endif %}
     </th>
@@ -137,6 +142,8 @@ table#cmmntCont td {
 
 <p></p>
 {%  if current_user.is_authenticated  %}
+{% if not thread.exceeds_comment_count() %}
+
 <a href="#addComment">Add comment</a>
 
 <div id="addComment" class="modalDialog">
@@ -172,5 +179,6 @@ table#cmmntCont td {
         <a href="#close" title="Close" class="close">X</a>
     </div>
 </div>
+{%  endif  %}
 {%  endif  %}
 {% endblock %}

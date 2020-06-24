@@ -89,7 +89,7 @@ def threads_page(thread_id):
     
     if not form.validate():
         return render_template("threads/threadpage.html", thread = thread, form = form,
-                               error = "invalid input")
+                               error = "Invalid input")
     if not current_user.is_authenticated:
         return render_template("threads/threadpage.html", thread = thread, form = form,
                                error = "You need to be logged in")

@@ -3,7 +3,7 @@
 {% block body %}
     
 <p></p>
-{{ form.error }}
+<p><h3 style='color:red;'>{{ error }}</h3></p>
 <style>
 table {
   width:100%;
@@ -36,11 +36,38 @@ table#cmmntCont td {
   padding: 15px;
   height: 120
 }
+
+
+.modalDialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 99999;
+    opacity:0;
+    pointer-events: none;
+}
+
+
+.modalDialog:target {
+    opacity:1;
+    pointer-events: auto;
+}
+
+.modalDialog > div {
+    width: 600px;
+    position: fixed;
+    margin: 100px;
+    padding: 5px 20px 13px 20px;
+    background: #dfd;
+}
 </style>
 <table  id="cmmntTabl">
   <th><b>{{  thread.title  }}</b>
     {% if thread.exceeds_comment_count() %}
-      THREAD HAS BEEN ARCHIVED. YOU CANNOT COMMENT ANYMORE.
+      <p style='color:red;'>THREAD HAS BEEN ARCHIVED. YOU CANNOT COMMENT ANYMORE.</p>
       
     {% endif %}
     {% if current_user.is_authenticated %}
@@ -106,79 +133,48 @@ table#cmmntCont td {
   </tr>
     
   {% endfor %}
+  {%  if current_user.is_authenticated  %}
+  {% if not thread.exceeds_comment_count() %}
+  <tr> 
+    <td>
+      <form action="#addComment">
+         <button type="submit">Add comment</button>
+      </form>
+	  
+      <div id="addComment" class="modalDialog">
+        <div>
+        <form method="POST" enctype="multipart/form-data" action="/thread/{{  thread.id }}">
+          <table>
+		    <a href="" title="Close" class="close">X</a>
+            <tr>
+              <td>
+              {{ form.comment.label }}
+              </td>
+              <td>
+              {{ form.comment }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+              {{ form.image.label }}
+              </td>
+              <td>
+              {{ form.image }}
+              </td>
+            </tr>
+            <tr>
+			  <td></td>
+              <td>
+                <input type="submit" value="Comment"/>
+              </td>
+            </tr>
+	      </table>
+        </div>
+      </div>
+    </td>
+  </tr>
+  {%  endif  %}
+  {%  endif  %}
 </table>
 
-
-<style>
-
-.modalDialog {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0,0,0,0.2);
-    z-index: 99999;
-    opacity:0;
-    pointer-events: none;
-}
-
-
-.modalDialog:target {
-    opacity:1;
-    pointer-events: auto;
-}
-
-.modalDialog > div {
-    width: 600px;
-    position: fixed;
-    margin: 100px;
-    padding: 5px 20px 13px 20px;
-    background: #dfd;
-}
-
-
-</style>
-
-<p></p>
-{%  if current_user.is_authenticated  %}
-{% if not thread.exceeds_comment_count() %}
-
-<a href="#addComment">Add comment</a>
-
-<div id="addComment" class="modalDialog">
-    <div>
-        <form method="POST" enctype="multipart/form-data" action="/thread/{{  thread.id }}">
-        <table>
-        <tr>
-          <td>
-            {{ form.comment.label }}
-          </td>
-          <td>
-            {{ form.comment }}
-          </td>
-          <td>
-            <ul>
-            
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            {{ form.image.label }}
-          </td>
-          <td colspan="2">
-            {{ form.image }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <input type="submit" value="Comment"/>
-          </td>
-        </tr>
-        <a href="#close" title="Close" class="close">X</a>
-    </div>
-</div>
-{%  endif  %}
-{%  endif  %}
 {% endblock %}

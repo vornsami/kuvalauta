@@ -31,14 +31,14 @@ Huomaa, että polku tulee olla ympäröitynä lainausmerkeillä.
 THREAD_LIMIT määrittelee, kuinka monta ketjua voi olla olemassa kerrallaan, ennen kuin sovellus alkaa niitä automaattisesti poistamaan. 
 Sen arvo on pelkkä numero.
 
-COMMENT_LIMIT määrittelee, kuinka monta kommenttia kussakin ketjussa voi olla, ennen kuin niiden lisääminen ketjuun estetään.
-Sen arvo on pelkkä numero.
-
 DEFAULT_ADMIN_USERNAME määrittelee oletusarvoisen käyttäjänimen automaattisesti luotavalle ADMIN-tason käyttäjälle.
 Käyttäjänimi tulee ympäröidä lainausmerkeillä.
 
 DEFAULT_ADMIN_PASSWORD määrittelee oletusarvoisen salasanan automaattisesti luotavalle ADMIN-tason käyttäjälle.
 Salasana tulee ympäröidä lainausmerkeillä.
+
+
+
 
 ### Heroku
 

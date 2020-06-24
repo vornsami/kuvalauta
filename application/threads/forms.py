@@ -7,8 +7,9 @@ import re
 class CommentForm(FlaskForm):
     # Kuvatiedoston validointi
     def validate_file(form, field):
-        if not re.search(".*(.)(png|jpg|jpeg|PNG|JPG|JPEG|GIF|gif)$", field.data.filename):
-            raise ValidationError('Incorrect file format')
+        if field.data:
+            if not re.search(".*(.)(png|jpg|jpeg|PNG|JPG|JPEG|GIF|gif)$", field.data.filename):
+                raise ValidationError('Incorrect file format')
 
     comment = TextAreaField(("Comment"), [InputRequired(), validators.Length(min=1), validators.Length(max=1000)])
     image = FileField(("Image File"), [validate_file, validators.Optional()])

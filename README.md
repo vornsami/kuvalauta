@@ -20,7 +20,7 @@ ja käyttöohjeen voi löytää [täältä](/documentation/Käyttöohje.md)
 
 - [CREATE TABLE -komennot](/documentation/Create_Table.md)
 - [Lue lisää tietokannan rakenteesta](/documentation/Tietokannan_rakenteesta.md)
-- [Ohjelman tekemät SQL-kyselyt](/documentation/Käyttötapausten_SQL-kyselyt.md)
+- [Käyttötapaukset ja niiden SQL-kyselyt](/documentation/Käyttötapausten_SQL-kyselyt.md)
 - [Jatkokehitysideat](/documentation/Jatkokehitys.md)
 
 ### Heroku

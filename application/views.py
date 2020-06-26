@@ -16,16 +16,15 @@ def main():
         return render_template("main.html", threads = t)
     except:
         print("Something went wrong.")
-		
+        
         for thread in t:
             print(thread.title)
             comment = Comment.query.filter_by(thread_id = thread.id).first()
             
             if not comment:
-                print("!!!!!!")
                 db.session.delete(thread)
                 db.session.commit()
-		
+        
         return redirect(url_for("page_404"))
 
 @app.route("/404page")

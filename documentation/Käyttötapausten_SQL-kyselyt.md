@@ -1,6 +1,3 @@
-Käydään käyttötapausten SQL-kyselyt samassa järjestyksessä, kun ne käydään käyttöohjeessa.
-
-
 ### Huomautuksia
 
 
@@ -30,6 +27,13 @@ Jokaisella sivulla sivusto lataa käyttäjän nimen otsakkeeseen, jolloin tehdä
 SELECT * FROM account WHERE account.id = ?
 
 
+## Käyttötapaus 1
+
+
+Käyttäjä tulee sivustolle ensimmäistä kertaa. Hän huomaa etusivulla jo olevan ketjuja, ja painaa erään ketjun alla olevaa linkkiä "Read replies, ja siirtyy lukemaan kommentteja."
+Luettuaan kommentteja vähän aikaa, haluaa käyttäjä lisätä itsekin kommentin. Käyttäjä painaa sivun yläreunassa olevaa painiketta "Log in" ja sen jälkeen linkkiä "Create an account".
+Käyttäjä luo käyttäjätilinsä, siirtyy takaisin ketjuun ja lisää kommenttinsa kuvalla varustettuna. 
+
 
 
 ### Etusivu avataan
@@ -45,81 +49,6 @@ SELECT * FROM comment WHERE comment.thread_id = ? LIMIT ? OFFSET ?
 SELECT * FROM comment WHERE comment.thread_id = ? ORDER BY comment.date_created LIMIT ? OFFSET ?
 
 SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
-
-
-
-
-### Käyttäjä luo käyttäjätilin
-
-SELECT * FROM account WHERE account.name = ? OR account.username = ? LIMIT ? OFFSET ? // Tarkastetaan, onko nimi käytössä
-
-INSERT INTO account (date_created, date_modified, name, username, password, acc_type) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'username', 'username', 'password', 'USER')
-
-
-
-
-### Käyttäjä kirjautuu sisään
-
-SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
-
-
-
-
-### Käyttäjä muuttaa muille käyttäjille näkyvää nimeään. 
-
-
-SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
-
-SELECT * FROM account WHERE (account.name = ? OR account.username = ?) AND account.id != ? LIMIT ? OFFSET ? // Tarkastetaan, ettei nimi ole kellään muulla käytössä
-
-UPDATE account SET date_modified=CURRENT_TIMESTAMP, name=? WHERE account.id = ?
-
-
-
-
-### Käyttäjä vaihtaa salasanansa
-
-
-SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
-
-UPDATE account SET date_modified=CURRENT_TIMESTAMP, password=? WHERE account.id = ?
-
-
-
-
-
-### Käyttäjä poistaa käyttäjätunnuksensa
-
-
-SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
-
-DELETE FROM account WHERE account.id = ?
-
-
-
-
-
-### Käyttäjä luo uuden ketjun, johon on liitettynä kuva
-
-
-SELECT * FROM image
-
-INSERT INTO image (date_created, date_modified, name, filename) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?)
-
-SELECT * FROM account WHERE account.id = ?
-
-INSERT INTO thread (date_created, date_modified, title, account_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Title', ?)
-
-SELECT * FROM account WHERE account.id = ? LIMIT ? OFFSET ?
-
-SELECT * FROM thread WHERE thread.id = ? LIMIT ? OFFSET ?
-
-SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
-
-INSERT INTO comment (date_created, date_modified, content, account_id, thread_id, image_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'content', ?, ?, ?)
-
-Tietokannasta tämän jälkeen vielä tarkastetaan ketjujen määrä, ja poistetaan ylimääräiset.
-
 
 
 
@@ -150,6 +79,16 @@ SELECT count(*) AS count_1 FROM (SELECT * FROM comment WHERE comment.thread_id =
 
 
 
+
+### Käyttäjä luo käyttäjätilin
+
+SELECT * FROM account WHERE account.name = ? OR account.username = ? LIMIT ? OFFSET ? // Tarkastetaan, onko nimi käytössä
+
+INSERT INTO account (date_created, date_modified, name, username, password, acc_type) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'username', 'username', 'password', 'USER')
+
+
+
+
 ### Käyttäjä lisää uuden kommentin ketjuun
 
 
@@ -164,6 +103,74 @@ SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
 INSERT INTO comment (date_created, date_modified, content, account_id, thread_id, image_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'content', ?, ?, ?)
 
 
+
+
+## Käyttötapaus 2
+
+
+Pitkäaikainen käyttäjä tulee sivustolle. Hän on alkanut käyttämään toisenlaista tunnusta muilla sivustoilla, ja haluaa muuttaa tunnuksensa vastaamaan tätä.
+Hän ei kuitenkaan halua että kukaan muu ottaa käyttöön hänen vanhaa käyttäjänimeä, sillä hänen kirjoittelunsa ovat tulleet sivulla jo tunnetuksi. 
+Hän siirtyy asetuksiin ja vaihtaa käyttäjätunnustaan. Hän vielä vaihtaa näkyvän nimensä olemaan sama kuin aikaisemmin, ja vaihtaa vielä salasanansa uudeksi.
+Tämän jälkeen hän siirtyy luomaan uuden ketjun, jolla on otsikko ja kuva.
+
+
+
+
+### Käyttäjä muuttaa käyttäjätunnustaan
+
+
+
+
+### Käyttäjä muuttaa muille käyttäjille näkyvää nimeään. 
+
+
+SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
+
+SELECT * FROM account WHERE (account.name = ? OR account.username = ?) AND account.id != ? LIMIT ? OFFSET ? // Tarkastetaan, ettei nimi ole kellään muulla käytössä
+
+UPDATE account SET date_modified=CURRENT_TIMESTAMP, name=? WHERE account.id = ?
+
+
+
+
+### Käyttäjä vaihtaa salasanansa
+
+
+SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
+
+UPDATE account SET date_modified=CURRENT_TIMESTAMP, password=? WHERE account.id = ?
+
+
+
+
+### Käyttäjä luo uuden ketjun, johon on liitettynä kuva
+
+
+SELECT * FROM image
+
+INSERT INTO image (date_created, date_modified, name, filename) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?)
+
+SELECT * FROM account WHERE account.id = ?
+
+INSERT INTO thread (date_created, date_modified, title, account_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Title', ?)
+
+SELECT * FROM account WHERE account.id = ? LIMIT ? OFFSET ?
+
+SELECT * FROM thread WHERE thread.id = ? LIMIT ? OFFSET ?
+
+SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
+
+INSERT INTO comment (date_created, date_modified, content, account_id, thread_id, image_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'content', ?, ?, ?)
+
+Tietokannasta tämän jälkeen vielä tarkastetaan ketjujen määrä, ja poistetaan ylimääräiset.
+
+
+
+
+## Käyttötapaus 3
+
+
+Moderaattori-tason käyttäjä selailee ketjuja, ja poistaa sopimattomia kuvia, kommentteja ja ketjuja.
 
 
 ### Kuvan poistaminen

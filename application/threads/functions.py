@@ -23,11 +23,14 @@ def delete_comment(comment):
     db.session.delete(comment)
 
 def delete_image(image):
-    try:
-        os.remove(os.path.join(
-            'application', app.config["UPLOAD_FOLDER"], image.filename))
-    except:
-        print("Image not in filesystem")
+    import os
+	# Ongelmia saada toimimaan Herokussa
+    if not os.environ.get("HEROKU"):
+        try:
+            os.remove(os.path.join(
+                'application', app.config["UPLOAD_FOLDER"], image.filename))
+        except:
+            print("Image not in filesystem")
     
     db.session.delete(image)
     

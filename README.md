@@ -8,9 +8,9 @@ Lisää ohjelmasta ja sen tavoitteista [täältä](/documentation/tavoitteet.md)
 
 ### Miten tätä ohjelmaa käytetään?
 
-Ohjelman asennusohjeen voi lukea [täältä](/documentation/asennusohje.md)
+Ohjelman asennusohjeen voi lukea [täältä](/documentation/Asennusohje.md)
 
-ja käyttöohjeen voi löytää [täältä](/documentation/käyttöohje.md)
+ja käyttöohjeen voi löytää [täältä](/documentation/Käyttöohje.md)
 
 
 

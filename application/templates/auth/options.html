@@ -34,6 +34,31 @@
     <tr><td><p></p></td></tr>
     
     <tr>
+      <td><b>Change username</b></td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <form method="POST" action="{{ url_for('change_username') }}">
+    <tr>
+      <td>{{ form.username.label }} </td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.password.label }} </td>
+      <td>{{ form.password }}</td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <tr>
+      <td>{{ form.new_username.label }} </td>
+      <td>{{ form.new_username }}</td>
+    </tr>
+    <tr><td><p></p></td></tr>
+    <tr>
+    <td><input type="submit" value="Change username"/></td>
+    </tr>
+    </form>
+    <tr><td><p></p></td></tr>
+    
+    <tr>
       <td><b>Change password</b></td>
     </tr>
     <tr><td><p></p></td></tr>
@@ -57,6 +82,10 @@
     </tr>
     </form>
     
+    <tr><td><p></p></td></tr>
+    <tr><td></td><td colspan = 2>
+    <b>Username and password may contain letters, numbers and characters - _ @ % # +, and must be 3 - 20 characters long.</b>
+    </td></tr>
     <tr><td><p></p></td></tr>
     
     <tr>

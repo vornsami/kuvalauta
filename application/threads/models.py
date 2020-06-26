@@ -2,7 +2,7 @@
 from application import app, db
 from application.models import Base
 from sqlalchemy.sql import text
-from application.images.models import Image
+from application.images.models import CommentImage
 from application.auth.models import User
 from application.functions import dateSort
 
@@ -16,7 +16,7 @@ class Thread(Base):
         self.title = title
 
     def get_comments(self):
-        
+            
         stmt = text("SELECT Comment.* FROM Comment WHERE thread_id = :thread_id;").params(thread_id=self.id)
     
         res = db.engine.execute(stmt)
@@ -29,12 +29,6 @@ class Thread(Base):
     def get_main_comment(self):
         comments = Comment.query.filter_by(thread_id = self.id).order_by(Comment.date_created)
         return comments[0]
-
-    def get_image_filename(self,comment):
-        image_filename = db.session.query(Image.filename).filter(Image.id == comment.image_id).first()
-        if image_filename:
-            image_filename = image_filename.filename
-        return image_filename
 
     def get_comment_user(self,comment):
         return User.query.filter_by(id = comment.account_id).first()

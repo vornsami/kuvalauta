@@ -10,6 +10,8 @@ CREATE TABLE image (
         name VARCHAR(144) NOT NULL,
 
         filename VARCHAR(144) NOT NULL,
+        
+        image_data BLOB NOT NULL,
 
         PRIMARY KEY (id)
 
@@ -25,11 +27,11 @@ CREATE TABLE account (
 
         date_modified DATETIME,
 
-        name VARCHAR(144) NOT NULL,
+        name VARCHAR(20) NOT NULL,
 
-        username VARCHAR(144) NOT NULL,
+        username VARCHAR(20) NOT NULL,
 
-        password VARCHAR(144) NOT NULL,
+        password VARCHAR(20) NOT NULL,
 
         acc_type VARCHAR(15) NOT NULL,
 
@@ -68,7 +70,7 @@ CREATE TABLE comment (
 
         date_modified DATETIME,
 
-        content VARCHAR(1000) NOT NULL,
+        content VARCHAR(5020) NOT NULL,
 
         account_id INTEGER NOT NULL,
 

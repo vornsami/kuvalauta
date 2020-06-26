@@ -43,9 +43,9 @@ table#thrTabl td:nth-child(1) {
     </th>
     {% with main_comment = thread.get_main_comment() %}
     <tr>
-      {% with imgFile = thread.get_image_filename(main_comment) %}
-      {% if imgFile %}
-      <td><img src="{{ url_for('display_image', filename=imgFile) }}" width=100% height=100%></td>
+      {% with imgId = main_comment.image_id %}
+      {% if imgId %}
+      <td><img src="{{ url_for('display_image', image_id=imgId) }}" width=100% height=100%></td>
       {% else %}
       <td></td>
       {% endif %}

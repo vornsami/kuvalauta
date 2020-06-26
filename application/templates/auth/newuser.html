@@ -1,9 +1,17 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
 {{ error }}
+
 <form method="POST" action="{{ url_for('newuser') }}">
   <table>
+    <tr>
+      <td></td>
+      <td colspan="2">
+        <p><b>Create User:</b></p>
+      </td>
+    </tr>
     <tr>
       <td>
     {{ form.username.label }}
@@ -25,5 +33,12 @@
     <input type="submit" value="Create"/>
       </td>
     </tr>
+    <tr>
+      <td></td>
+      <td colspan="2">
+        <p>Username and password may contain letters, numbers and characters - _ @ % # +, and must be 3 - 20 characters long.</p>
+      </td>
+    </tr>
 </form>
+
 {% endblock %}

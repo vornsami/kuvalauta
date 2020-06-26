@@ -1,7 +1,7 @@
 from application import app, db
 import os.path
 from application.threads.models import Thread, Comment
-from application.images.models import Image    
+from application.images.models import CommentImage    
 from application.functions import dateSort
 
 def threadSort(t):
@@ -17,16 +17,20 @@ def delete_thread_comments(thread):
     
 
 def delete_comment(comment):
-    i = Image.query.filter_by(id = comment.image_id).first()
+    i = CommentImage.query.filter_by(id = comment.image_id).first()
     if i is not None:
         delete_image(i)
     db.session.delete(comment)
 
 def delete_image(image):
-    os.remove(os.path.join(
-        'application', app.config["UPLOAD_FOLDER"], image.filename))
+    try:
+        os.remove(os.path.join(
+            'application', app.config["UPLOAD_FOLDER"], image.filename))
+    except:
+        print("Image not in filesystem")
+    
     db.session.delete(image)
-
+    
 def delete_extra_threads():
     thrs = Thread.query.all()
     if len(thrs) > app.config["THREAD_LIMIT"]:

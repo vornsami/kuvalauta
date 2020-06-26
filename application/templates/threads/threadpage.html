@@ -119,9 +119,9 @@ table#cmmntCont td {
       {% endif %}
     </th>
     <tr>
-    {% with imgFile = thread.get_image_filename(comment) %}
-      {% if imgFile %}
-      <td><img src="{{ url_for('display_image', filename=imgFile) }}" width=100%></td>
+    {% with imgId = comment.image_id %}
+      {% if imgId %}
+      <td><img src="{{ url_for('display_image', image_id=imgId) }}" width=100%></td>
       {% else %}
       <td></td>
       {% endif %}
@@ -140,12 +140,12 @@ table#cmmntCont td {
       <form action="#addComment">
          <button type="submit">Add comment</button>
       </form>
-	  
+      
       <div id="addComment" class="modalDialog">
         <div>
         <form method="POST" enctype="multipart/form-data" action="/thread/{{  thread.id }}">
           <table>
-		    <a href="" title="Close" class="close">X</a>
+            <a href="" title="Close" class="close">X</a>
             <tr>
               <td>
               {{ form.comment.label }}
@@ -163,12 +163,12 @@ table#cmmntCont td {
               </td>
             </tr>
             <tr>
-			  <td></td>
+              <td></td>
               <td>
                 <input type="submit" value="Comment"/>
               </td>
             </tr>
-	      </table>
+          </table>
         </div>
       </div>
     </td>

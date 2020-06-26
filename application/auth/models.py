@@ -5,9 +5,9 @@ class User(Base):
 
     __tablename__ = "account"
   
-    name = db.Column(db.String(144), nullable=False)
-    username = db.Column(db.String(144), nullable=False)
-    password = db.Column(db.String(144), nullable=False)
+    name = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(20), nullable=False)
 
     acc_type = db.Column(db.String(15), nullable=False)
 

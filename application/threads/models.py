@@ -24,7 +24,10 @@ class Thread(Base):
         response = []
         for row in res:
             response.append(row)
-        return list(response)
+        	
+        response = list(response)
+        response.sort(key=dateSort)
+        return response
 
     def get_main_comment(self):
         comments = Comment.query.filter_by(thread_id = self.id).order_by(Comment.date_created)

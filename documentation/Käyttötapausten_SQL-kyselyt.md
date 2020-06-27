@@ -171,7 +171,7 @@ INSERT INTO comment (date_created, date_modified, content, account_id, thread_id
 Tietokannasta tämän jälkeen vielä tarkastetaan ketjujen määrä, ja poistetaan ylimääräiset.
 
 
-
+------
 
 ## Käyttötapaus 3
 

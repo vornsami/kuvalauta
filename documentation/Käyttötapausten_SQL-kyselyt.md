@@ -44,9 +44,11 @@ SELECT * FROM thread
 Jokaista saatua ketjua kohden tehdään vielä kyselyt
 
 
-SELECT * FROM comment WHERE comment.thread_id = ? LIMIT ? OFFSET ?
+SELECT * FROM comment WHERE comment.thread_id = ?
 
 SELECT * FROM comment WHERE comment.thread_id = ? ORDER BY comment.date_created LIMIT ? OFFSET ?
+
+Ja jokaista sivun kuvaa kohden kysely
 
 SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
 
@@ -62,20 +64,16 @@ SELECT count(*) AS count_1 FROM (SELECT * FROM comment WHERE comment.thread_id =
 SELECT Comment.* FROM Comment WHERE thread_id = ?
 
 
-Jokaista kommenttia kohden tehdään kyselyt
+Jokaista kommenttia kohden tehdään kysely
 
 
 SELECT * FROM account WHERE account.id = ?
 
-SELECT * FROM comment WHERE comment.thread_id = ? ORDER BY comment.date_created LIMIT ? OFFSET ?
 
-SELECT image.filename AS image_filename FROM image WHERE image.id = ? LIMIT ? OFFSET ?
-
-
-Lopuksi:
+Ja jokaista sivun kuvaa kohden kysely
 
 
-SELECT count(*) AS count_1 FROM (SELECT * FROM comment WHERE comment.thread_id = ?) AS anon_1
+SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
 
 
 
@@ -94,7 +92,7 @@ INSERT INTO account (date_created, date_modified, name, username, password, acc_
 
 SELECT * FROM image 
 
-INSERT INTO image (date_created, date_modified, name, filename) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'image_name', 'id.fileformat')
+INSERT INTO image (date_created, date_modified, name, fileformat, image_data) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?)
 
 SELECT * FROM account WHERE account.id = ?
 
@@ -119,6 +117,13 @@ Tämän jälkeen hän siirtyy luomaan uuden ketjun, jolla on otsikko ja kuva.
 ### Käyttäjä muuttaa käyttäjätunnustaan
 
 
+SELECT* FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
+
+SELECT * FROM account WHERE (account.name = ? OR account.username = ?) AND account.id != ? LIMIT ? OFFSET ?
+
+UPDATE account SET date_modified=CURRENT_TIMESTAMP, name=?, username=? WHERE account.id = ?   // Mikäli käyttäjän nimi ja käyttäjätunnus olisivat erilaiset, niin nimeä ei muuteta
+
+
 
 
 ### Käyttäjä muuttaa muille käyttäjille näkyvää nimeään. 
@@ -126,7 +131,7 @@ Tämän jälkeen hän siirtyy luomaan uuden ketjun, jolla on otsikko ja kuva.
 
 SELECT * FROM account WHERE account.username = ? AND account.password = ? LIMIT ? OFFSET ?
 
-SELECT * FROM account WHERE (account.name = ? OR account.username = ?) AND account.id != ? LIMIT ? OFFSET ? // Tarkastetaan, ettei nimi ole kellään muulla käytössä
+SELECT * FROM account WHERE (account.name = ? OR account.username = ?) AND account.id != ? LIMIT ? OFFSET ? 
 
 UPDATE account SET date_modified=CURRENT_TIMESTAMP, name=? WHERE account.id = ?
 
@@ -178,11 +183,11 @@ Moderaattori-tason käyttäjä selailee ketjuja, ja poistaa sopimattomia kuvia, 
 
 SELECT * FROM account WHERE account.id = ?
 
-SELECT * FROM commentWHERE comment.id = ? LIMIT ? OFFSET ?
+SELECT * FROM comment WHERE comment.id = ? LIMIT ? OFFSET ?
 
-SELECT * FROM imageWHERE image.id = ? LIMIT ? OFFSET ?
+SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
 
-UPDATE comment SET date_modified=CURRENT_TIMESTAMP, image_id=? WHERE comment.id = ?
+UPDATE comment SET date_modified=CURRENT_TIMESTAMP, image_id=? WHERE comment.id = ? // Muutetaan image_id:n arvo olemaan NULL
 
 DELETE FROM image WHERE image.id = ?
 

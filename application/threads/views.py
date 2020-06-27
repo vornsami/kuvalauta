@@ -113,23 +113,13 @@ def threads_page(thread_id):
 def add_image(image):
     imgs = CommentImage.query.all()
             
-    # Kuvatiedoston nimi tulee olemaan sama kuin sen id, joten tässä katsotaan mikä id tulee olemaan
-    
-    if not imgs:
-        num = 1
-    else:
-        imgs.sort(key=idSort, reverse = True)
-        img = imgs[0]
-        num = img.id + 1
         
     # Määritellään tiedostonimi
     
     filename, file_extension = os.path.splitext(image.filename)
-    filename = secure_filename(str(num) + file_extension)
-    
     
     i = CommentImage(image.filename)
-    i.filename = filename
+    i.fileformat = file_extension
     i.image_data = image.read()
             
     db.session().add(i)

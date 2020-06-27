@@ -84,7 +84,7 @@ except:
 #Luodaan admin-käyttäjä, mikäli sellaista ei vielä ole    
 from application.threads.functions import delete_user
 
-admin = User.query.filter_by(id=1,username=DEFAULT_ADMIN_USERNAME).first()
+admin = User.query.filter_by(id=1, acc_type="ADMIN").first()
 if not admin:
     user = User.query.filter_by(id=1).first()
     if user:

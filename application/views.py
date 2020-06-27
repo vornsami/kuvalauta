@@ -44,9 +44,9 @@ def display_image(image_id):
             img = Image.open(stream)
             
             img.save(os.path.join(
-                'application', app.config["UPLOAD_FOLDER"], image.filename
+                'application', app.config["UPLOAD_FOLDER"], str(image.id) + image.fileformat
             ))    
-            return redirect(url_for('static', filename='upload/' + image.filename), code=301)
+            return redirect(url_for('static', filename='upload/' + str(image.id) + image.fileformat), code=301)
         except:
             print("Faulty image data, deleting image...")
             delete_image(image)

@@ -9,7 +9,7 @@ CREATE TABLE image (
 
         name VARCHAR(144) NOT NULL,
 
-        filename VARCHAR(144) NOT NULL,
+        fileformat VARCHAR(10) NOT NULL,
         
         image_data BLOB NOT NULL,
 

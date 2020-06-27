@@ -18,20 +18,16 @@ def delete_thread_comments(thread):
 
 def delete_comment(comment):
     i = CommentImage.query.filter_by(id = comment.image_id).first()
-    if i is not None:
+    if i:
         delete_image(i)
     db.session.delete(comment)
-
-def delete_image(image):
-    import os
-	# Ongelmia saada toimimaan Herokussa
-    if not os.environ.get("HEROKU"):
-        try:
-            os.remove(os.path.join(
-                'application', app.config["UPLOAD_FOLDER"], image.filename))
-        except:
-            print("Image not in filesystem")
     
+def delete_image(image):
+    try:
+        os.remove(os.path.join(
+            'application', app.config["UPLOAD_FOLDER"], str(image.id) + image.fileformat))
+    except:
+        print("Image not in filesystem")
     db.session.delete(image)
     
 def delete_extra_threads():

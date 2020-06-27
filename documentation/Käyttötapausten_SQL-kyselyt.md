@@ -26,6 +26,7 @@ Jokaisella sivulla sivusto lataa käyttäjän nimen otsakkeeseen, jolloin tehdä
 
 SELECT * FROM account WHERE account.id = ?
 
+------
 
 ## Käyttötapaus 1
 
@@ -101,7 +102,7 @@ SELECT * FROM image WHERE image.id = ? LIMIT ? OFFSET ?
 INSERT INTO comment (date_created, date_modified, content, account_id, thread_id, image_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'content', ?, ?, ?)
 
 
-
+------
 
 ## Käyttötapaus 2
 

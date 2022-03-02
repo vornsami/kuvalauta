@@ -7,7 +7,7 @@ RUN python -m venv venv
 RUN . venv/bin/activate
 RUN pip install -r requirements.txt
 
-RUN echo "\napp.run(host='0.0.0.0')"  >>  application/__init__.py
+RUN echo "\napp.run(host='0.0.0.0', port = os.getenv('PORT', '5000'))"  >>  application/__init__.py
 EXPOSE 5000
 
 CMD python run.py
